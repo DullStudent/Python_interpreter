@@ -44,16 +44,12 @@ class PgParser(Parser):
 
     @_('ID ASSIGN expr')
     def statement(self, p):
-        self.ids[p.ID] = p.expr
-        print(p.ID, '=', p.expr, 'assign')
+            self.ids[p.ID] = p.expr
+            print(p.ID, '=', p.expr, 'assign')
 
     @_('expr')
     def statement(self, p):
-        if p.expr > 0:
-            return p.expr
-        else:
-            print('ERROR')
-            return 0
+        print(p.expr, 'expr/result')
 
     @_('expr PLUS expr')
     def expr(self, p):
@@ -81,8 +77,12 @@ class PgParser(Parser):
 
     @_('LEFT expr RIGHT')
     def expr(self, p):
-        print(p.expr, '()')
-        return p.expr
+        if p.expr == 0:
+            print('ERROR')
+            return 0
+        else:
+            print(p.expr, '()')
+            return p.expr
 
     @_('NUMBER')
     def expr(self, p):
@@ -100,6 +100,12 @@ class PgParser(Parser):
 if __name__ == '__main__':
     lexer = PgLexer()
     parser = PgParser()
+
+    print("This is a program that uses a tokenizer and lexer and parser class to create a calculator" '\n'
+          "This Calculator can only calculate positive numbers with the following: -, +, *, /" '\n'
+          "You can also assign numbers to variables"
+          )
+
     while True:
         try:
             text = input()
